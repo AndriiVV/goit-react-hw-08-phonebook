@@ -1,7 +1,7 @@
 const PhonebookPage = () => {
   return (
     <>
-      <h3>Phonebook page</h3>
+      <h3>Phonebook components</h3>
     </>
   );
 };
