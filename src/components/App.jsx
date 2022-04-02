@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     console.log("useEffect is running...");
     isAuth && dispatch(getCurUser());
-  }, [dispatch]);
+  }, [dispatch, isAuth]);
 
   return (
     <div>
