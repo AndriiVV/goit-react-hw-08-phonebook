@@ -11,7 +11,7 @@ import {
   getCurUserApi,
 } from '../../utils/swaggerApi';
 // import { errorHandler } from '../error/errorHandler';
-import { logOut, setToken } from './authSlice';
+// import { logOut, setToken } from './authSlice';
 
 export const registerUser = createAsyncThunk(
   'auth/register',
