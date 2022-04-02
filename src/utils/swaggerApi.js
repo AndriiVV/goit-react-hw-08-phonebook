@@ -1,8 +1,11 @@
 import axios from 'axios';
 
-export const registerUserApi = userData => {
-  axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
+axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
+const transformGetData = data =>
+  data.map(({ name, phone, id }) => ({ name, phone, id }));
+
+export const registerUserApi = userData => {
   return axios.post('/users/signup', userData).then(({ data }) => ({
     token: data.token,
     name: data.user.name,
@@ -12,7 +15,7 @@ export const registerUserApi = userData => {
 };
 
 export const loginUserApi = userData => {
-  axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
+  // axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
 
   return axios.post('/users/login', userData).then(({ data }) => ({
     token: data.token,
@@ -23,7 +26,7 @@ export const loginUserApi = userData => {
 };
 
 export const getCurUserApi = token => {
-  axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
+  // axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
   axios.defaults.headers.common['Authorization'] = token;
 
   console.log('getCurUserApi is running...');
@@ -33,4 +36,44 @@ export const getCurUserApi = token => {
     email: data.email,
     id: data.id,
   }));
+};
+
+export const addContactApi = (contact, token) => {
+  axios.defaults.headers.common['Authorization'] = token;
+
+  return axios
+    .post('/contacts', contact)
+    .then(({ data }) => ({ ...contact, id: data.id }))
+    .catch(err => err);
+};
+
+export const getContactApi = token => {
+  axios.defaults.headers.common['Authorization'] = token;
+
+  return axios
+    .get('/contacts')
+    .then(({ data }) => {
+      const newData = transformGetData(data);
+      // console.log("getContactApi()... newData is: ", newData);
+      return newData;
+    })
+    .catch(err => err);
+};
+
+export const deleteContactApi = (contactId, token) => {
+  axios.defaults.headers.common['Authorization'] = token;
+
+  return axios
+    .delete(`/contacts/${contactId}`)
+    .then(() => contactId)
+    .catch(err => err);
+};
+
+export const patchContactApi = (contactId, token, contact) => {
+  axios.defaults.headers.common['Authorization'] = token;
+
+  return axios
+    .patch(`/contacts/${contactId}`, contact)
+    .then(() => contactId)
+    .catch(err => err);
 };

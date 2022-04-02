@@ -1,5 +1,6 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getUserEmail, getUsername } from "redux/auth/authSelectors";
 import { logOut } from "../../redux/auth/authSlice";
 
 const btnStyle = {
@@ -15,6 +16,8 @@ const btnStyle = {
 const UserNav = () => {
 
   const dispatch = useDispatch();
+  const username = useSelector(getUsername);
+  const userEmail = useSelector(getUserEmail);
   
   return (
     <>
@@ -25,7 +28,7 @@ const UserNav = () => {
       >
         Phonebook
       </NavLink>
-      <a style={btnStyle}>user@email.com</a>
+      <a href={`mailto:${userEmail}`} style={btnStyle}>Welcome, {username}</a>
       <button type="button" style={ {fontSize: "16px", borderRadius: "5px", padding: "10px", margin: "10px"}} onClick={() => dispatch(logOut())}>
           LogOut
       </button>
